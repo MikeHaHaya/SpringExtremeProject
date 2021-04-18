@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
@@ -18,12 +17,14 @@ import app.core.exceptions.CouponSystemException;
 @Service
 @Transactional
 public class CustomerService extends ClientService {
-	
-	@Autowired
-	private Customer customer;
 
-	public CustomerService(Customer customer) {
-		this.customer = customer;
+	private int id;
+	
+	public CustomerService() {
+	}
+
+	public CustomerService(int id) {
+		this.id = id;
 	}
 
 	public boolean login(String email, String password) {
@@ -35,13 +36,13 @@ public class CustomerService extends ClientService {
 
 	public void purchaseCoupon(int couponId) throws CouponSystemException {
 
-		Optional<Coupon> opt = couRep.findById(couponId);
+		Optional<Coupon> optCoupon = couRep.findById(couponId);
 
-		if (opt.isEmpty())
+		if (optCoupon.isEmpty())
 			throw new CouponSystemException("this coupon doesn't exist");
-		Coupon coupon = opt.get();
+		Coupon coupon = optCoupon.get();
 
-		List<Integer> customerCoupons = couRep.FindAllByCustomers_id(customer.getId());
+		List<Integer> customerCoupons = couRep.FindAllByCustomers_id(id);
 
 		if (coupon.getAmount() < 1)
 			throw new CouponSystemException("no coupons left (coupons amount == 0)");
@@ -54,7 +55,13 @@ public class CustomerService extends ClientService {
 
 		coupon.setAmount(coupon.getAmount() - 1);
 
+		Optional<Customer> opt = custRep.findById(id);
+		if(opt.isEmpty())
+			throw new CouponSystemException("customer doesn't exist in the DB");
+		Customer customer = opt.get();
+
 		customer.addCoupon(coupon);
+		
 		custRep.flush();
 	}
 
@@ -62,7 +69,7 @@ public class CustomerService extends ClientService {
 	 * @return
 	 */
 	public ArrayList<Coupon> getCoupons() {
-		ArrayList<Integer> coupnonsID = new ArrayList<Integer>(couRep.FindAllByCustomers_id(customer.getId()));
+		ArrayList<Integer> coupnonsID = new ArrayList<Integer>(couRep.FindAllByCustomers_id(id));
 		ArrayList<Coupon> coupons = new ArrayList<Coupon>();
 
 		for (Integer integer : coupnonsID) {

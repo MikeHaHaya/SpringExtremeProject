@@ -37,7 +37,7 @@ public class AdminService extends ClientService{
 	 * @param com (new company)
 	 * @throws CouponSystemException in case of company already exist
 	 */
-	public Company createNewCompany(Company com) throws CouponSystemException {
+	public Company addNewCompany(Company com) throws CouponSystemException {
 		if (!comRep.existsComapnyByName(com.getName()))
 			return comRep.save(com);
 		

@@ -20,6 +20,7 @@ public class Company {
 	private int id;
 	private String name, email, password;
 	
+//	TODO
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "company")
 	private List<Coupon> coupons;
 	
@@ -90,7 +91,7 @@ public class Company {
 
 	@Override
 	public String toString() {
-		return "Company [ID=" + id + ", name=" + name + ", email=" + email + ", coupons=" + coupons + "]";
+		return "Company [ID=" + id + ", name=" + name + ", email=" + email + "]";
 	}
 	
 	

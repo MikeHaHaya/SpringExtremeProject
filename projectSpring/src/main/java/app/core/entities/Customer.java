@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,7 +22,7 @@ public class Customer {
 	private int id;
 	private String firstName, lastName, email, password;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "customers_coupons", joinColumns = @JoinColumn(name = "customer_id"), inverseJoinColumns = @JoinColumn(name = "coupon_id"))
 	private List<Coupon> coupons;
 
@@ -109,7 +110,7 @@ public class Customer {
 	@Override
 	public String toString() {
 		return "Customer [iDCustomer=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", coupons=" + coupons + "]";
+				+ "]";
 	}
 
 }

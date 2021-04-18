@@ -5,8 +5,7 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import app.core.entities.Company;
@@ -15,18 +14,16 @@ import app.core.exceptions.CouponSystemException;
 
 @Service
 @Transactional
-public class ComanyService extends ClientService{
-	private Company company;
+@Scope("prototype")
+public class CompanyService extends ClientService{
+	
+	private int id;
 
-	public ComanyService(Company company) {
-		this.company = company;
+	public CompanyService(int id) {
+		this.id = id;
 	}
 
-	public ComanyService() {
-	}
-
-	public void setCompany(Company company) {
-		this.company = company;
+	public CompanyService() {
 	}
 
 	public boolean login(String email, String password) {
@@ -38,9 +35,13 @@ public class ComanyService extends ClientService{
 
 	public void addNewCoupon(Coupon coupon) throws CouponSystemException {
 
-		if (couRep.existsCouponByTitle(coupon.getTitle()) && company.getId() == coupon.getCompany().getId())
+		if (couRep.existsCouponByTitle(coupon.getTitle()) && id == coupon.getCompany().getId())
 			throw new CouponSystemException("coupon title for that company already exist");
-			
+		
+		Optional<Company> opt = comRep.findById(id);
+		if(opt.isEmpty())
+			throw new CouponSystemException("company doesn't exist in the DB");
+		Company company = opt.get();
 		company.addCoupon(coupon);
 		comRep.flush();
 	}
@@ -53,7 +54,7 @@ public class ComanyService extends ClientService{
 				|| coupon.getStartDate() == null || coupon.getEndDate() == null)
 			throw new CouponSystemException("You have empty fields that need to contain value.");
 		
-		if (coupon.getId() == company.getId())
+		if (coupon.getId() == id)
 			throw new CouponSystemException("you can't update coupons of others");
 
 		Coupon temp = new Coupon();
@@ -75,7 +76,7 @@ public class ComanyService extends ClientService{
 	
 	public List<Coupon> getAllCoupons() throws CouponSystemException{
 
-		Optional<Company> opt = comRep.findById(company.getId());
+		Optional<Company> opt = comRep.findById(id);
 		if(opt.isEmpty())
 			throw new CouponSystemException("company doesn't exist in the DB");
 		Company company = opt.get();
