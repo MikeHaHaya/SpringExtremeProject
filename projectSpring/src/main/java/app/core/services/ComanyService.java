@@ -13,7 +13,6 @@ import app.core.entities.Company;
 import app.core.entities.Coupon;
 import app.core.exceptions.CouponSystemException;
 
-@ComponentScan("app.core")
 @Service
 @Transactional
 public class ComanyService extends ClientService{
