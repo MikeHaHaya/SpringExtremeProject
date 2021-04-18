@@ -6,16 +6,20 @@ import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
 import app.core.entities.Coupon;
 import app.core.entities.Customer;
 import app.core.exceptions.CouponSystemException;
 
+@ComponentScan("app.core")
 @Service
 @Transactional
 public class CustomerService extends ClientService {
-
+	
+	@Autowired
 	private Customer customer;
 
 	public CustomerService(Customer customer) {

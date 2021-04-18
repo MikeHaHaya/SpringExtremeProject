@@ -13,12 +13,12 @@ import app.core.entities.Company;
 import app.core.entities.Customer;
 import app.core.exceptions.CouponSystemException;
 import app.core.repositories.CompanyRepository;
+import app.core.repositories.CouponRepository;
 import app.core.repositories.CustomerRepository;
 
 @Service
 @Transactional
 public class AdminService extends ClientService{
-	
 
 	/**
 	 * @param email    = hard coded admin@admin.com
@@ -74,15 +74,10 @@ public class AdminService extends ClientService{
 	 * @param company to del
 	 * @throws CouponSystemException
 	 */
-//	TODO
-//	public void deleteCompany(Company com) throws CouponSystemException {
-//
-//		if (com.getCoupons() != null) {
-//			companyDAO.deleteCompanyCouponsUsersHistory(com);
-//			couopnDAO.deleteCompanyCoupons(com.getIdCompany());
-//		}
-//		companyDAO.deleteCompany(com.getIdCompany());
-//	}
+	public void deleteCompany(Company com) throws CouponSystemException {
+
+		comRep.delete(com);
+	}
 	
 	public List<Company> getAllCompanies(){
 

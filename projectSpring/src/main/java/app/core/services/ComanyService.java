@@ -1,17 +1,22 @@
 package app.core.services;
 
+import java.util.List;
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
 import app.core.entities.Company;
 import app.core.entities.Coupon;
 import app.core.exceptions.CouponSystemException;
 
+@ComponentScan("app.core")
 @Service
 @Transactional
-public class ComanyService extends ClientService {
-
+public class ComanyService extends ClientService{
 	private Company company;
 
 	public ComanyService(Company company) {
@@ -64,7 +69,19 @@ public class ComanyService extends ClientService {
 
 		couRep.save(temp);
 	}
+	
 	public void deleteCoupon(int couponId) {
 		couRep.deleteById(couponId);
 	}
+	
+	public List<Coupon> getAllCoupons() throws CouponSystemException{
+
+		Optional<Company> opt = comRep.findById(company.getId());
+		if(opt.isEmpty())
+			throw new CouponSystemException("company doesn't exist in the DB");
+		Company company = opt.get();
+		return company.getCoupons();
+	}
+
+	
 }

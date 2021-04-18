@@ -3,10 +3,14 @@ package app.core;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 
 import app.core.exceptions.CouponSystemException;
 import app.core.services.AdminService;
+import app.core.services.ClientService;
+import app.core.services.CustomerService;
 
+@ComponentScan("app.core")
 @SpringBootApplication
 public class ProjectSpringApplication {
 
@@ -14,16 +18,8 @@ public class ProjectSpringApplication {
 	public static void main(String[] args) {
 		ConfigurableApplicationContext ctx = SpringApplication.run(ProjectSpringApplication.class, args);
 		
-//		AdminService admin = ctx.getBean(AdminService.class);
-//		
-//		
-//		try {
-//			
-//			System.out.println(admin.getOneCustomer(1));
-//		} catch (CouponSystemException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+//		CustomerService customer = ctx.getBean(CustomerService.class);
+		
 	}
 
 }
