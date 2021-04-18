@@ -21,7 +21,7 @@ public class Company {
 	private String name, email, password;
 	
 //	TODO
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "company")
+	@OneToMany(cascade = CascadeType.PERSIST, mappedBy = "company")
 	private List<Coupon> coupons;
 	
 	//CTOR

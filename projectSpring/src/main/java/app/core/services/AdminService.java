@@ -57,8 +57,8 @@ public class AdminService extends ClientService{
 		Company temp = opt.get();
 
 		// throw an exception in case of changes that aren't allowed 
-		if (!temp.getName().equalsIgnoreCase(com.getName()) || temp.getId() != com.getId())
-			throw new CouponSystemException("the fields name and id can't be changed.");
+		if (!temp.getName().equalsIgnoreCase(com.getName()))
+			throw new CouponSystemException("the field name can't be changed.");
 
 		temp.setName(com.getName());
 		temp.setEmail(com.getEmail());
@@ -74,9 +74,9 @@ public class AdminService extends ClientService{
 	 * @param company to del
 	 * @throws CouponSystemException
 	 */
-	public void deleteCompany(Company com) throws CouponSystemException {
+	public void deleteCompany(int companyId) throws CouponSystemException {
 
-		comRep.delete(com);
+		comRep.deleteById(companyId);
 	}
 	
 	public List<Company> getAllCompanies(){
@@ -104,7 +104,7 @@ public class AdminService extends ClientService{
 	 * @param customer = the updated version
 	 * @throws CouponSystemException
 	 */
-	public void updateCustoemr(int id, Customer customer) throws CouponSystemException {
+	public void updateCustomer(int id, Customer customer) throws CouponSystemException {
 
 		// throw exception in case of nulls where you can't put one
 		if (customer.getEmail() == null || customer.getPassword() == null)

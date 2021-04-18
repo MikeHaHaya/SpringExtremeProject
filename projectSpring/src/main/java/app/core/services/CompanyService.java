@@ -19,11 +19,17 @@ public class CompanyService extends ClientService{
 	
 	private int id;
 
+	//CTOR
 	public CompanyService(int id) {
 		this.id = id;
 	}
 
 	public CompanyService() {
+	}
+	
+	//Setter
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public boolean login(String email, String password) {
@@ -35,15 +41,18 @@ public class CompanyService extends ClientService{
 
 	public void addNewCoupon(Coupon coupon) throws CouponSystemException {
 
-		if (couRep.existsCouponByTitle(coupon.getTitle()) && id == coupon.getCompany().getId())
-			throw new CouponSystemException("coupon title for that company already exist");
 		
 		Optional<Company> opt = comRep.findById(id);
 		if(opt.isEmpty())
 			throw new CouponSystemException("company doesn't exist in the DB");
 		Company company = opt.get();
+
+		if (couRep.existsCouponByTitle(coupon.getTitle()) && id == coupon.getCompany().getId())
+			throw new CouponSystemException("coupon title for that company already exist");
+
 		company.addCoupon(coupon);
-		comRep.flush();
+		
+		
 	}
 
 //	TODO check if working
