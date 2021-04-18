@@ -44,6 +44,9 @@ public class ProjectSpringApplication {
 		admin.addNewCompany(company2);
 		admin.addNewCompany(company3);
 		admin.addNewCompany(company4);
+		
+		CompanyService admin = ctx.getBean(AdminService.class);
+
 //			Customer customerFromDB = admin.getOneCustomer(1);
 //			System.out.println(customerFromDB);
 		} catch (CouponSystemException e) {
