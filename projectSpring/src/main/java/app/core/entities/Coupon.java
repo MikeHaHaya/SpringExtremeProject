@@ -74,7 +74,7 @@ public class Coupon {
 	public Coupon() {}
 
 	//getters and setters
-	public int getIdCoupun() {
+	public int getId() {
 		return id;
 	}
 

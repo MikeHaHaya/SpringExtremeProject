@@ -47,7 +47,7 @@ public class Company {
 	
 	//getters and setters
 	
-	public int getIdCompany() {
+	public int getId() {
 		return id;
 	}
 	public void setIdCompany(int idCompany) {
@@ -79,6 +79,13 @@ public class Company {
 	}
 	public List<Coupon> getCoupons() {
 		return coupons;
+	}
+
+	public void addCoupon(Coupon coupon) {
+		if(this.coupons == null) { 
+			this.coupons = new ArrayList<Coupon>();
+		}
+		this.coupons.add(coupon);
 	}
 
 	@Override

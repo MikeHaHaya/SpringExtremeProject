@@ -57,7 +57,7 @@ public class AdminService extends ClientService{
 		Company temp = opt.get();
 
 		// throw an exception in case of changes that aren't allowed 
-		if (!temp.getName().equalsIgnoreCase(com.getName()) || temp.getIdCompany() != com.getIdCompany())
+		if (!temp.getName().equalsIgnoreCase(com.getName()) || temp.getId() != com.getId())
 			throw new CouponSystemException("the fields name and id can't be changed.");
 
 		temp.setName(com.getName());
@@ -126,7 +126,7 @@ public class AdminService extends ClientService{
 		temp.setEmail(customer.getEmail());
 		temp.setPassword(customer.getPassword());
 
-		custRep.saveAndFlush(temp);
+		custRep.save(temp);
 	}
 	
 	public void deleteCustomer(int id) throws CouponSystemException {

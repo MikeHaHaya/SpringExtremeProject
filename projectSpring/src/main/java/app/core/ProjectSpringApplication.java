@@ -10,6 +10,7 @@ import app.core.services.AdminService;
 @SpringBootApplication
 public class ProjectSpringApplication {
 
+//	done with Daniel Har-Oz
 	public static void main(String[] args) {
 		ConfigurableApplicationContext ctx = SpringApplication.run(ProjectSpringApplication.class, args);
 		
