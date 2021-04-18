@@ -10,7 +10,6 @@ import app.core.services.AdminService;
 import app.core.services.ClientService;
 import app.core.services.CustomerService;
 
-@ComponentScan("app.core")
 @SpringBootApplication
 public class ProjectSpringApplication {
 
