@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import app.core.login.LoginManager;
 import app.core.tests.LoginManagerTest;
+import app.core.threads.CouponExpirationDailyJob;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -29,9 +30,11 @@ public class ProjectSpringApplication {
 
 
 			ConfigurableApplicationContext ctx = SpringApplication.run(ProjectSpringApplication.class, args);
-			LoginManagerTest.runTest(ctx);
+//			CouponExpirationDailyJob.startThread(ctx);
 
-//			AdminService admin = ctx.getBean(AdminService.class);
+//			LoginManagerTest.runTest(ctx);
+
+			AdminService admin = ctx.getBean(AdminService.class);
 
 //			Customer customer = new Customer(0, "a", "a", "a@a", "128376gh", null);
 //			Customer customer1 = new Customer(0, "b", "b", "b@b", "128376gh", null);
@@ -43,7 +46,7 @@ public class ProjectSpringApplication {
 //			admin.addNewCustomer(customer2);
 //			admin.addNewCustomer(customer3);
 //			admin.addNewCustomer(customer4);
-//
+
 //			Company company = new Company(0, "com1", "com12@a", "13fd897h", null);
 //			Company company1 = new Company(0, "com2", "com2@a", "13fd897h", null);
 //			Company company2 = new Company(0, "com3", "com3@a", "13fd897h", null);

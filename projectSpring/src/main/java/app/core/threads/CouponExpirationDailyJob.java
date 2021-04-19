@@ -2,14 +2,16 @@ package app.core.threads;
 
 import app.core.entities.Coupon;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+@Component
 @Scope("singleton")
 public class CouponExpirationDailyJob implements Runnable {
 
@@ -20,8 +22,6 @@ public class CouponExpirationDailyJob implements Runnable {
 
     /**
      * Constructor and starter. */
-//    @PostConstruct
-    // TODO -- SET PROPERLY POST-CONSTRUCT
     public CouponExpirationDailyJob() {
         this.t = new Thread(this);
         t.start();
@@ -34,7 +34,14 @@ public class CouponExpirationDailyJob implements Runnable {
 
         while (!quit) {
 
-            ArrayList<Coupon> coupons = new ArrayList<>(service.getAllCoupons());
+            System.out.println("Thread started");
+            ArrayList<Coupon> coupons = new ArrayList<>();
+
+            try {
+                coupons = (ArrayList<Coupon>) service.getAllCoupons();
+            } catch (NullPointerException e) {
+
+            }
             LocalDateTime now = LocalDateTime.now();
 
             try {
@@ -52,10 +59,12 @@ public class CouponExpirationDailyJob implements Runnable {
             }
 
         }
+
+        System.out.println("Thread ended");
     }
 
     // TODO -- SET PROPERLY PRE-DESTROY
-//    @PreDestroy
+    @PreDestroy
     /**
      * Stops the thread */
     public void stop() {
@@ -82,4 +91,5 @@ public class CouponExpirationDailyJob implements Runnable {
         long delay = midnight.getTimeInMillis() - now.getTimeInMillis();
         return delay;
     }
+
 }
