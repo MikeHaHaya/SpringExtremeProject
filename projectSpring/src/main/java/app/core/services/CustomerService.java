@@ -27,6 +27,7 @@ public class CustomerService extends ClientService {
 		this.id = id;
 	}
 
+	@Override
 	public boolean login(String email, String password) {
 		if (custRep.existsCustomerByEmailAndPassword(email, password))
 			return true;

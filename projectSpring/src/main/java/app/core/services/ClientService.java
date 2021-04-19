@@ -2,6 +2,7 @@ package app.core.services;
 
 import javax.transaction.Transactional;
 
+import app.core.exceptions.CouponSystemException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,4 +20,6 @@ public abstract class ClientService {
 	protected CouponRepository couRep;
 	@Autowired
 	protected CustomerRepository custRep;
+
+	public abstract boolean login(String email, String pasword);
 }

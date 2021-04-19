@@ -26,6 +26,7 @@ public class AdminService extends ClientService{
 	 * @return true if the email and password correct, false if not
 	 */
 
+	@Override
 	public boolean login(String email, String password) {
 		if (email.equalsIgnoreCase("admin@admin.com") && password.equalsIgnoreCase("admin"))
 			return true;

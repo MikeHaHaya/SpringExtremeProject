@@ -32,6 +32,7 @@ public class CompanyService extends ClientService{
 		this.id = id;
 	}
 
+	@Override
 	public boolean login(String email, String password) {
 		if (comRep.existsComapnyByEmailAndPassword(email, password))
 			return true;

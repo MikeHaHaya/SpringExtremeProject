@@ -2,6 +2,7 @@ package app.core.threads;
 
 import app.core.entities.Coupon;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+@Scope("singleton")
 public class CouponExpirationDailyJob implements Runnable {
 
     @Autowired
@@ -53,7 +55,7 @@ public class CouponExpirationDailyJob implements Runnable {
     }
 
     // TODO -- SET PROPERLY PRE-DESTROY
-    @PreDestroy
+//    @PreDestroy
     /**
      * Stops the thread */
     public void stop() {
