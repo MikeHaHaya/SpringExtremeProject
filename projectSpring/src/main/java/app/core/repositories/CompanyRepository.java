@@ -8,6 +8,8 @@ public interface CompanyRepository extends JpaRepository<Company, Integer> {
 
 	boolean existsCompanyByEmailAndPassword(String email, String password);
 
+	boolean existsCompanyByEmail(String email);
+
 	boolean existsCompanyByName(String name);
 
 }

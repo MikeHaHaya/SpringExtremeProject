@@ -3,6 +3,7 @@ package app.core.services;
 import javax.transaction.Transactional;
 
 import app.core.exceptions.CouponSystemException;
+import app.core.exceptions.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

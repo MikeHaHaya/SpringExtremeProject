@@ -32,9 +32,10 @@ public class CouponExpirationDailyJob implements Runnable {
     @Override
     public void run() {
 
+        System.out.println("CouponExpiration thread has started");
+
         while (!quit) {
 
-            System.out.println("Thread started");
             ArrayList<Coupon> coupons = new ArrayList<>();
 
             try {
@@ -48,7 +49,6 @@ public class CouponExpirationDailyJob implements Runnable {
 
                 for (Coupon coupon: coupons) {
                     if (coupon.getEndDate().isBefore(now))
-                        // TODO -- MAKE SURE WHEN YOU DELETE A COUPON IT'S PURCHASES IS DELETED WITH IT.
                         service.deleteCouponById(coupon.getId());
                 }
                 long delay = delayUntilMidnight();
@@ -59,8 +59,7 @@ public class CouponExpirationDailyJob implements Runnable {
             }
 
         }
-
-        System.out.println("Thread ended");
+        System.out.println("CouponExpiration thread has stopped");
     }
 
     // TODO -- SET PROPERLY PRE-DESTROY
