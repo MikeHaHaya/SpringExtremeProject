@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
 
+import app.core.exceptions.ServiceException;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +38,13 @@ public class CustomerService extends ClientService {
             return true;
 
         return false;
+    }
+
+    public Customer getCustomer() throws ServiceException {
+        Optional<Customer> opt = custRep.findById(this.id);
+        if (opt.isEmpty())
+            throw new ServiceException("customer does not exist in the DB");
+        return opt.get();
     }
 
     public void purchaseCoupon(int couponId) throws CouponSystemException {
@@ -75,9 +83,44 @@ public class CustomerService extends ClientService {
     }
 
     /**
-     * @return the coupons of the customer
+     * @return the coupons of the customer. will return empty list in case of no coupons.
      */
     public ArrayList<Coupon> getCoupons() {
+        ArrayList<Coupon> coupons = getCouponsArrayList();
+
+        return coupons;
+    }
+
+    /**
+     * @return the coupons of the customer that match the given category. will return empty list in case of no coupons.
+     */
+    public ArrayList<Coupon> getCouponsByCategory(Coupon.Category category) {
+        ArrayList<Coupon> coupons = getCouponsArrayList();
+
+        for (Coupon coupon : coupons) {
+            if (coupon.getCategory() != category)
+                coupons.remove(coupon);
+        }
+
+        return coupons;
+    }
+
+    /**
+     * @return the coupons of the customer that under maxPrice. will return empty list in case of no coupons.
+     */
+    public ArrayList<Coupon> getCouponsByMaxPrice(double maxPrice) {
+        ArrayList<Coupon> coupons = getCouponsArrayList();
+
+        for (Coupon coupon : coupons) {
+
+            if (coupon.getPrice() < maxPrice) ;
+            coupons.remove(coupon);
+        }
+
+        return coupons;
+    }
+
+    public ArrayList<Coupon> getCouponsArrayList() {
         ArrayList<Integer> couponsID = new ArrayList<Integer>(couRep.findAllByCustomersId(id));
         ArrayList<Coupon> coupons = new ArrayList<Coupon>();
 
@@ -87,8 +130,6 @@ public class CustomerService extends ClientService {
             Coupon coupon = opt.get();
             coupons.add(coupon);
         }
-
         return coupons;
     }
-
 }

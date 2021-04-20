@@ -117,7 +117,7 @@ public class CompanyService extends ClientService {
     }
 
     /**
-     * Gets all coupons by this company from the database.
+     * Gets all coupons of this company from the database.
      */
     public List<Coupon> getCompanyCoupons() {
 
