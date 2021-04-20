@@ -41,7 +41,7 @@ public class LoginManager {
                 service = customerService;
                 break;
             default:
-                throw new LoginException("Failed to log in, client has to be either an administrator, a company or a customer.");
+                throw new LoginException("Failed to log in, client has to be administrator, company or customer.");
         }
 
         if (service.login(email, password))

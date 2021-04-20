@@ -17,13 +17,13 @@ public class CouponExpirationDailyJob implements Runnable {
 
     @Autowired
     private CouponExpirationService service;
-    private final Thread t;
-    private boolean quit = false;
+        private final Thread t;
+        private boolean quit = false;
 
-    /**
-     * Constructor and starter. */
+        /**
+         * Constructor and starter. */
     public CouponExpirationDailyJob() {
-        this.t = new Thread(this);
+            this.t = new Thread(this);
         t.start();
     }
 
@@ -62,7 +62,6 @@ public class CouponExpirationDailyJob implements Runnable {
         System.out.println("CouponExpiration thread has stopped");
     }
 
-    // TODO -- SET PROPERLY PRE-DESTROY
     @PreDestroy
     /**
      * Stops the thread */

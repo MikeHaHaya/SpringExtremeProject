@@ -17,6 +17,7 @@ public interface CouponRepository extends JpaRepository<Coupon, Integer> {
 
     void deleteByCompany(Company company);
 
+    //native query due to problems with the InteliJ and Eclipse to mySQL
     @Query(value = "select * from coupons where company_id = :id", nativeQuery = true)
     List<Coupon> findAllByCompanyId(int id);
 
