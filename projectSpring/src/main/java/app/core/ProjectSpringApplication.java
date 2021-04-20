@@ -24,17 +24,17 @@ import app.core.services.CustomerService;
 @SpringBootApplication
 public class ProjectSpringApplication {
 
-//	done with Daniel Har-Oz
-	public static void main(String[] args) {
-		try {
+    //	done with Daniel Har-Oz
+    public static void main(String[] args) {
+        try {
 
 
-			ConfigurableApplicationContext ctx = SpringApplication.run(ProjectSpringApplication.class, args);
+            ConfigurableApplicationContext ctx = SpringApplication.run(ProjectSpringApplication.class, args);
 //			CouponExpirationDailyJob.startThread(ctx);
 
 //			LoginManagerTest.runTest(ctx);
 
-			AdminService admin = ctx.getBean(AdminService.class);
+//            AdminService admin = ctx.getBean(AdminService.class);
 
 //			Customer customer = new Customer(0, "a", "a", "a@a", "128376gh", null);
 //			Customer customer1 = new Customer(0, "b", "b", "b@b", "128376gh", null);
@@ -46,7 +46,7 @@ public class ProjectSpringApplication {
 //			admin.addNewCustomer(customer2);
 //			admin.addNewCustomer(customer3);
 //			admin.addNewCustomer(customer4);
-
+//
 //			Company company = new Company(0, "com1", "com12@a", "13fd897h", null);
 //			Company company1 = new Company(0, "com2", "com2@a", "13fd897h", null);
 //			Company company2 = new Company(0, "com3", "com3@a", "13fd897h", null);
@@ -58,25 +58,45 @@ public class ProjectSpringApplication {
 //			admin.addNewCompany(company3);
 //			admin.addNewCompany(company4);
 
-	
+//			Coupon coupon = new Coupon(0, null, 5, "coupon1", "the best coupon", "c://", LocalDateTime.now(),
+//					LocalDateTime.now().plusDays(9), 5.5, Category.ELECTRICITY);
+//			Coupon coupon1 = new Coupon(0, null, 6, "coupon2", "amazing coupon", "c://", LocalDateTime.now(),
+//					LocalDateTime.now().plusDays(2), 20, Category.RESTURANT);
+//			Coupon coupon2 = new Coupon(0, null, 7, "coupon3", "breathtaking coupon", "c://", LocalDateTime.now(),
+//					LocalDateTime.now().plusDays(3), 25.5, Category.BOOK);
+//			Coupon coupon3 = new Coupon(0, null, 8, "coupon4", "unforgettable coupon", "c://", LocalDateTime.now(),
+//					LocalDateTime.now().plusDays(7), 99.9, Category.FOOD);
+//
+//			CompanyService companyService = ctx.getBean(CompanyService.class);
+//			companyService.setId(1);
+//			companyService.addNewCoupon(coupon);
+//
+//			companyService.setId(2);
+//			companyService.addNewCoupon(coupon1);
+//
+//			companyService.setId(3);
+//			companyService.addNewCoupon(coupon2);
+//
+//			companyService.setId(4);
+//			companyService.addNewCoupon(coupon3);
+
 //			admin.deleteCompany(4);
 //			admin.updateComapny(1, company);
-			
 //			System.out.println(admin.getAllCompanies());
 //			Company com = admin.getOneCompany(4);
-//			Coupon coupon = new Coupon(0, com, 5, "coupon1", "the best coupon", "c://", LocalDateTime.now(),
-//					LocalDateTime.now().plusDays(5), 15.5, Category.ELECTRICITY);
-////
-//			CompanyService companyService = ctx.getBean(CompanyService.class);
-//			companyService.setId(4);
-//			companyService.addNewCoupon(coupon);
+
+            CustomerService customerService = ctx.getBean(CustomerService.class);
+            customerService.setId(1);
+//			customerService.purchaseCoupon(2);
+            System.out.println(customerService.getCoupons());
+//
 //			Customer customerFromDB = admin.getOneCustomer(1);
 //			System.out.println(customerFromDB);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
-	}
+    }
 
 }

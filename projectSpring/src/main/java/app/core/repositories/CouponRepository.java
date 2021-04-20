@@ -7,12 +7,16 @@ import org.springframework.data.jpa.repository.Query;
 
 import app.core.entities.Coupon;
 
-public interface CouponRepository extends JpaRepository<Coupon, Integer>{
 
- 	boolean existsCouponById(int id);
- 	boolean existsCouponByTitle(String name);
- 	long deleteById(int idCompany);
+public interface CouponRepository extends JpaRepository<Coupon, Integer> {
 
-	@Query(value = "select * from customers_coupons where customer_id = :id", nativeQuery = true)
-	List<Integer> FindAllByCustomers_id(int id);
+    boolean existsCouponById(int id);
+
+    boolean existsCouponByTitle(String name);
+
+    @Query(value = "select * from coupons where company_id = :id", nativeQuery = true)
+    List<Coupon> findAllByCompanyId(int id);
+
+    @Query(value = "select * from customers_coupons where customer_id = :id", nativeQuery = true)
+    List<Integer> FindAllByCustomersId(int id);
 }

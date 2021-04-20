@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
 
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -19,68 +18,77 @@ import app.core.exceptions.CouponSystemException;
 @Scope("prototype")
 public class CustomerService extends ClientService {
 
-	private int id;
-	
-	public CustomerService() {
-	}
+    private int id;
 
-	public CustomerService(int id) {
-		this.id = id;
-	}
+    public CustomerService() {
+    }
 
-	@Override
-	public boolean login(String email, String password) {
-		if (custRep.existsCustomerByEmailAndPassword(email, password))
-			return true;
+    public CustomerService(int id) {
+        this.id = id;
+    }
 
-		return false;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void purchaseCoupon(int couponId) throws CouponSystemException {
+    @Override
+    public boolean login(String email, String password) {
+        if (custRep.existsCustomerByEmailAndPassword(email, password))
+            return true;
 
-		Optional<Coupon> optCoupon = couRep.findById(couponId);
+        return false;
+    }
 
-		if (optCoupon.isEmpty())
-			throw new CouponSystemException("this coupon doesn't exist");
-		Coupon coupon = optCoupon.get();
+    public void purchaseCoupon(int couponId) throws CouponSystemException {
 
-		List<Integer> customerCoupons = couRep.FindAllByCustomers_id(id);
+        Optional<Coupon> optCoupon = couRep.findById(couponId);
 
-		if (coupon.getAmount() < 1)
-			throw new CouponSystemException("no coupons left (coupons amount == 0)");
+        if (optCoupon.isEmpty())
+            throw new CouponSystemException("this coupon doesn't exist");
+        Coupon coupon = optCoupon.get();
+        List<Integer> customerCoupons = couRep.FindAllByCustomersId(id);
 
-		if (coupon.getEndDate().isBefore(LocalDateTime.now()))
-			throw new CouponSystemException("coupon date expired");
 
-		if (customerCoupons.contains(couponId))
-			throw new CouponSystemException("you already have this coupon");
+        if (coupon.getAmount() < 1) {
+            throw new CouponSystemException("no coupons left (coupons amount == 0)");
+        }
 
-		coupon.setAmount(coupon.getAmount() - 1);
+        if (coupon.getEndDate().isBefore(LocalDateTime.now())) {
+            throw new CouponSystemException("coupon date expired");
+        }
 
-		Optional<Customer> opt = custRep.findById(id);
-		if(opt.isEmpty())
-			throw new CouponSystemException("customer doesn't exist in the DB");
-		Customer customer = opt.get();
+        if (customerCoupons.contains(couponId)) {
+            throw new CouponSystemException("you already have this coupon");
+        }
 
-		customer.addCoupon(coupon);
-		
-		custRep.flush();
-	}
+        Optional<Customer> opt = custRep.findById(id);
+        if (opt.isEmpty()) {
+            throw new CouponSystemException("customer doesn't exist in the DB");
+        }
 
-	/**
-	 * @return
-	 */
-	public ArrayList<Coupon> getCoupons() {
-		ArrayList<Integer> coupnonsID = new ArrayList<Integer>(couRep.FindAllByCustomers_id(id));
-		ArrayList<Coupon> coupons = new ArrayList<Coupon>();
+        Customer customer = opt.get();
 
-		for (Integer integer : coupnonsID) {
+        coupon.setAmount(coupon.getAmount() - 1);
+        customer.addCoupon(coupon);
 
-			Coupon temp = couRep.getOne(integer);
-			coupons.add(temp);
-		}
+        custRep.flush();
+    }
 
-		return coupons;
-	}
+    /**
+     * @return the coupons of the customer
+     */
+    public ArrayList<Coupon> getCoupons() {
+        ArrayList<Integer> couponsID = new ArrayList<Integer>(couRep.FindAllByCustomersId(id));
+        ArrayList<Coupon> coupons = new ArrayList<Coupon>();
+
+        for (Integer integer : couponsID) {
+
+            Optional<Coupon> opt = couRep.findById(id);
+            Coupon coupon = opt.get();
+            coupons.add(coupon);
+        }
+
+        return coupons;
+    }
 
 }

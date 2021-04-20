@@ -41,8 +41,8 @@ public class Coupon {
 
 //	CTORS
 	/**
-	 * @param idCoupun
-	 * @param iDCompany
+	 * @param id
+	 * @param company
 	 * @param amount
 	 * @param title
 	 * @param description
@@ -52,9 +52,9 @@ public class Coupon {
 	 * @param price
 	 * @param category
 	 */
-	public Coupon(int idCoupun, Company company, int amount, String title,String description, String image, LocalDateTime startDate,
+	public Coupon(int id, Company company, int amount, String title,String description, String image, LocalDateTime startDate,
 			LocalDateTime endDate, double price, Category category) {
-		this.id = idCoupun;
+		this.id = id;
 		this.company = company;
 		this.amount = amount;
 		this.title = title;
@@ -66,8 +66,8 @@ public class Coupon {
 		this.category = category;
 	}
 	
-	public Coupon(int idCoupun) {
-		this.id = idCoupun;
+	public Coupon(int id) {
+		this.id = id;
 	}
 
 	public Coupon() {}
@@ -85,11 +85,11 @@ public class Coupon {
 		this.description = description;
 	}
 
-	public void setiDCoupun(int iDCoupun) {
-		this.id = iDCoupun;
+	public void setiD(int iD) {
+		this.id = iD;
 	}
 
-	public void setIdCompany(Company company) {
+	public void setCompany(Company company) {
 		this.company = company;
 	}
 

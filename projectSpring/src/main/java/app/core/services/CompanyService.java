@@ -15,83 +15,93 @@ import app.core.exceptions.CouponSystemException;
 @Service
 @Transactional
 @Scope("prototype")
-public class CompanyService extends ClientService{
-	
-	private int id;
+public class CompanyService extends ClientService {
 
-	//CTOR
-	public CompanyService(int id) {
-		this.id = id;
-	}
+    private int id;
 
-	public CompanyService() {
-	}
-	
-	//Setter
-	public void setId(int id) {
-		this.id = id;
-	}
+    //CTOR
+    public CompanyService(int id) {
+        this.id = id;
+    }
 
-	@Override
-	public boolean login(String email, String password) {
-		if (comRep.existsComapnyByEmailAndPassword(email, password))
-			return true;
+    public CompanyService() {
+    }
 
-		return false;
-	}
+    //Setter
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void addNewCoupon(Coupon coupon) throws CouponSystemException {
+    @Override
+    public boolean login(String email, String password) {
+        if (comRep.existsComapnyByEmailAndPassword(email, password))
+            return true;
 
-		
-		Optional<Company> opt = comRep.findById(id);
-		if(opt.isEmpty())
-			throw new CouponSystemException("company doesn't exist in the DB");
-		Company company = opt.get();
+        return false;
+    }
 
-		if (couRep.existsCouponByTitle(coupon.getTitle()) && id == coupon.getCompany().getId())
-			throw new CouponSystemException("coupon title for that company already exist");
+    public void addNewCoupon(Coupon coupon) throws CouponSystemException {
 
-		company.addCoupon(coupon);
-		
-		
-	}
+        CouponMustHaveValues(coupon);
 
-//	TODO check if working
-	public void updateCoupon(Coupon coupon) throws CouponSystemException {
+        Optional<Company> opt = comRep.findById(id);
+        if (opt.isEmpty())
+            throw new CouponSystemException("company doesn't exist in the DB");
+        Company company = opt.get();
 
-		// throw exception in case of nulls where you can't put one
-		if (coupon.getCategory() == null || coupon.getTitle() == null
-				|| coupon.getStartDate() == null || coupon.getEndDate() == null)
-			throw new CouponSystemException("You have empty fields that need to contain value.");
-		
-		if (coupon.getId() == id)
-			throw new CouponSystemException("you can't update coupons of others");
+        if (couRep.existsCouponByTitle(coupon.getTitle()) && id == coupon.getCompany().getId())
+            throw new CouponSystemException("coupon title for that company already exist");
 
-		Coupon temp = new Coupon();
-		temp.setTitle(coupon.getTitle());
-		temp.setDescription(coupon.getDescription());
-		temp.setCategory(coupon.getCategory());
-		temp.setStartDate(coupon.getStartDate());
-		temp.setEndDate(coupon.getEndDate());
-		temp.setAmount(coupon.getAmount());
-		temp.setPrice(coupon.getPrice());
-		temp.setImage(coupon.getImage());
+        coupon.setCompany(company);
+        company.addCoupon(coupon);
 
-		couRep.save(temp);
-	}
-	
-	public void deleteCoupon(int couponId) {
-		couRep.deleteById(couponId);
-	}
-	
-	public List<Coupon> getAllCoupons() throws CouponSystemException{
 
-		Optional<Company> opt = comRep.findById(id);
-		if(opt.isEmpty())
-			throw new CouponSystemException("company doesn't exist in the DB");
-		Company company = opt.get();
-		return company.getCoupons();
-	}
+    }
 
-	
+    //	TODO check if working
+    public void updateCoupon(Coupon coupon, int id) throws CouponSystemException {
+
+        CouponMustHaveValues(coupon);
+
+        Optional<Coupon> opt = couRep.findById(id);
+        if(opt.isEmpty()){
+            throw new CouponSystemException("no such coupon exist in the DB");
+        }
+        Coupon temp = opt.get();
+
+        //make sure to avoid nullPointer in case of tempering with the DB
+        if (coupon.getCompany() == null || coupon.getCompany().getId() != this.id )
+            throw new CouponSystemException("you can't update coupons of others");
+
+        temp.setTitle(coupon.getTitle());
+        temp.setDescription(coupon.getDescription());
+        temp.setCategory(coupon.getCategory());
+        temp.setStartDate(coupon.getStartDate());
+        temp.setEndDate(coupon.getEndDate());
+        temp.setAmount(coupon.getAmount());
+        temp.setPrice(coupon.getPrice());
+        temp.setImage(coupon.getImage());
+
+        couRep.save(temp);
+    }
+
+    public void deleteCoupon(int couponId) {
+        couRep.deleteById(couponId);
+    }
+
+    public List<Coupon> getAllCoupons() throws CouponSystemException {
+
+       List<Coupon> coupons = couRep.findAllByCompanyId(this.id);
+        return coupons;
+    }
+
+    /*
+     * throw exception in case of nulls where you can't put one
+     */
+    public static void CouponMustHaveValues(Coupon coupon) throws CouponSystemException {
+        if (coupon.getCategory() == null || coupon.getTitle() == null
+                || coupon.getStartDate() == null || coupon.getEndDate() == null)
+            throw new CouponSystemException("You have empty fields that need to contain value.");
+
+    }
 }

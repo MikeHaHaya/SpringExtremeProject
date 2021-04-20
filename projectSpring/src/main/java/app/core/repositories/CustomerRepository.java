@@ -13,11 +13,4 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 	
 	boolean existsCustomerByEmailAndPassword(String email, String password);
 	
-	//TODO
-//	@Query(value = "from customers_coupons where customers_id = :id")
-//	List<Integer> FindByCoupons(int id);
-//	List<Job> GetJobsByEmployee(long id);
-
-
-
 }
