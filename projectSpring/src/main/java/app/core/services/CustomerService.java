@@ -46,7 +46,7 @@ public class CustomerService extends ClientService {
         if (optCoupon.isEmpty())
             throw new CouponSystemException("this coupon doesn't exist");
         Coupon coupon = optCoupon.get();
-        List<Integer> customerCoupons = couRep.FindAllByCustomersId(id);
+        List<Integer> customerCoupons = couRep.findAllByCustomersId(id);
 
 
         if (coupon.getAmount() < 1) {
@@ -78,7 +78,7 @@ public class CustomerService extends ClientService {
      * @return the coupons of the customer
      */
     public ArrayList<Coupon> getCoupons() {
-        ArrayList<Integer> couponsID = new ArrayList<Integer>(couRep.FindAllByCustomersId(id));
+        ArrayList<Integer> couponsID = new ArrayList<Integer>(couRep.findAllByCustomersId(id));
         ArrayList<Coupon> coupons = new ArrayList<Coupon>();
 
         for (Integer integer : couponsID) {

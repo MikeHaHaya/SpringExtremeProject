@@ -30,9 +30,8 @@ public class Coupon {
 	private double price;
 	@ManyToMany (mappedBy = "coupons", cascade = CascadeType.REMOVE)
 	private List<Customer> customers = new ArrayList<Customer>();
-	
 	private Category category;
-	
+
 	public enum Category {
 
 		FOOD, ELECTRICITY, RESTAURANT, VACATION, GARMENT, BOOK;

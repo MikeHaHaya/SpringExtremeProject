@@ -30,10 +30,7 @@ public class AdminService extends ClientService {
      */
     @Override
     public boolean login(String email, String password) {
-        if (email.equalsIgnoreCase("admin@admin.com") && password.equalsIgnoreCase("admin"))
-            return true;
-
-        return false;
+        return email.equalsIgnoreCase("admin@admin.com") && password.equalsIgnoreCase("admin");
     }
 
     /**
@@ -64,7 +61,7 @@ public class AdminService extends ClientService {
 
         Optional<Company> opt = comRep.findById(id);
         if (opt.isEmpty())
-            throw new ServiceException("A company with this id does not exists. ");
+            throw new ServiceException("A company with this id does not exist. ");
 
         Company temp = opt.get();
 
