@@ -6,8 +6,8 @@ import app.core.entities.Company;
 
 public interface CompanyRepository extends JpaRepository<Company, Integer> {
 
-	boolean existsComapnyByEmailAndPassword(String email, String password);
+	boolean existsCompanyByEmailAndPassword(String email, String password);
 
-	boolean existsComapnyByName(String name);
+	boolean existsCompanyByName(String name);
 
 }

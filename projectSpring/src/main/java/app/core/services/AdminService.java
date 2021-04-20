@@ -1,21 +1,16 @@
 package app.core.services;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import app.core.entities.Company;
 import app.core.entities.Customer;
 import app.core.exceptions.CouponSystemException;
-import app.core.repositories.CompanyRepository;
-import app.core.repositories.CouponRepository;
-import app.core.repositories.CustomerRepository;
 
 @Service
 @Transactional
@@ -41,7 +36,7 @@ public class AdminService extends ClientService{
 	 * @throws CouponSystemException in case of company already exist
 	 */
 	public Company addNewCompany(Company com) throws CouponSystemException {
-		if (!comRep.existsComapnyByName(com.getName()))
+		if (!comRep.existsCompanyByName(com.getName()))
 			return comRep.save(com);
 		
 			throw new CouponSystemException("a company with that name already exist");
@@ -74,11 +69,16 @@ public class AdminService extends ClientService{
 	 * Completely del company with all it's history. note: usage of this method is
 	 * illegal in Israel.
 	 * 
-	 * @param company to del
+	 * @param companyId to del
 	 * @throws CouponSystemException
 	 */
 	public void deleteCompany(int companyId) throws CouponSystemException {
 
+		Optional<Company> opt = comRep.findById(companyId);
+		if (opt.isEmpty())
+			throw new CouponSystemException("no such company exist");
+		Company company = opt.get();
+		couRep.deleteByCompany(company);
 		comRep.deleteById(companyId);
 	}
 	

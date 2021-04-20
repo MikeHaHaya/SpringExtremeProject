@@ -35,7 +35,7 @@ public class Coupon {
 	
 	public enum Category {
 
-		FOOD, ELECTRICITY, RESTURANT, VACATION, GARMENT, BOOK;
+		FOOD, ELECTRICITY, RESTAURANT, VACATION, GARMENT, BOOK;
 	}
 
 

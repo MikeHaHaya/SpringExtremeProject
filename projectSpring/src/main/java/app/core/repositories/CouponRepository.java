@@ -2,6 +2,7 @@ package app.core.repositories;
 
 import java.util.List;
 
+import app.core.entities.Company;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -13,6 +14,8 @@ public interface CouponRepository extends JpaRepository<Coupon, Integer> {
     boolean existsCouponById(int id);
 
     boolean existsCouponByTitle(String name);
+
+    void deleteByCompany(Company company);
 
     @Query(value = "select * from coupons where company_id = :id", nativeQuery = true)
     List<Coupon> findAllByCompanyId(int id);

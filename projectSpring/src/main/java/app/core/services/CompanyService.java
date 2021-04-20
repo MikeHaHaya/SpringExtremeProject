@@ -34,7 +34,7 @@ public class CompanyService extends ClientService {
 
     @Override
     public boolean login(String email, String password) {
-        if (comRep.existsComapnyByEmailAndPassword(email, password))
+        if (comRep.existsCompanyByEmailAndPassword(email, password))
             return true;
 
         return false;
@@ -85,8 +85,18 @@ public class CompanyService extends ClientService {
         couRep.save(temp);
     }
 
-    public void deleteCoupon(int couponId) {
+    public void deleteCoupon(int couponId) throws CouponSystemException {
+
+        Optional<Coupon> opt = couRep.findById(couponId);
+        if(opt.isEmpty())
+            throw new CouponSystemException("no such coupon exist");
+        Coupon coupon = opt.get();
+        // to avoid nullPointer in case of tempering with the DB
+        if ((coupon.getCompany() == null || coupon.getCompany().getId() != this.id))
+            throw new CouponSystemException("you can't delete coupon that not yours");
+
         couRep.deleteById(couponId);
+
     }
 
     public List<Coupon> getAllCoupons() throws CouponSystemException {

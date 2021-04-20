@@ -2,24 +2,15 @@ package app.core;
 
 import java.time.LocalDateTime;
 
-import app.core.login.LoginManager;
-import app.core.tests.LoginManagerTest;
-import app.core.threads.CouponExpirationDailyJob;
-import org.springframework.boot.CommandLineRunner;
+import app.core.services.AdminService;
+import app.core.services.CompanyService;
+import app.core.services.CustomerService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
 
-import app.core.entities.Company;
 import app.core.entities.Coupon;
-import app.core.entities.Customer;
 import app.core.entities.Coupon.Category;
-import app.core.exceptions.CouponSystemException;
-import app.core.services.AdminService;
-import app.core.services.ClientService;
-import app.core.services.CompanyService;
-import app.core.services.CustomerService;
 
 @SpringBootApplication
 public class ProjectSpringApplication {
@@ -34,8 +25,11 @@ public class ProjectSpringApplication {
 
 //			LoginManagerTest.runTest(ctx);
 
-//            AdminService admin = ctx.getBean(AdminService.class);
+            AdminService admin = ctx.getBean(AdminService.class);
+			CompanyService companyService = ctx.getBean(CompanyService.class);
+            CustomerService customerService = ctx.getBean(CustomerService.class);
 
+            //Methods to add to the DB
 //			Customer customer = new Customer(0, "a", "a", "a@a", "128376gh", null);
 //			Customer customer1 = new Customer(0, "b", "b", "b@b", "128376gh", null);
 //			Customer customer2 = new Customer(0, "c", "c", "c@c", "128376gh", null);
@@ -61,16 +55,16 @@ public class ProjectSpringApplication {
 //			Coupon coupon = new Coupon(0, null, 5, "coupon1", "the best coupon", "c://", LocalDateTime.now(),
 //					LocalDateTime.now().plusDays(9), 5.5, Category.ELECTRICITY);
 //			Coupon coupon1 = new Coupon(0, null, 6, "coupon2", "amazing coupon", "c://", LocalDateTime.now(),
-//					LocalDateTime.now().plusDays(2), 20, Category.RESTURANT);
+//					LocalDateTime.now().plusDays(2), 20, Category.RESTAURANT);
 //			Coupon coupon2 = new Coupon(0, null, 7, "coupon3", "breathtaking coupon", "c://", LocalDateTime.now(),
 //					LocalDateTime.now().plusDays(3), 25.5, Category.BOOK);
 //			Coupon coupon3 = new Coupon(0, null, 8, "coupon4", "unforgettable coupon", "c://", LocalDateTime.now(),
 //					LocalDateTime.now().plusDays(7), 99.9, Category.FOOD);
 //
-//			CompanyService companyService = ctx.getBean(CompanyService.class);
-//			companyService.setId(1);
+//          Company services:
+			companyService.setId(1);
 //			companyService.addNewCoupon(coupon);
-//
+            companyService.deleteCoupon(1);
 //			companyService.setId(2);
 //			companyService.addNewCoupon(coupon1);
 //
@@ -80,18 +74,23 @@ public class ProjectSpringApplication {
 //			companyService.setId(4);
 //			companyService.addNewCoupon(coupon3);
 
+
+//            admin services:
 //			admin.deleteCompany(4);
 //			admin.updateComapny(1, company);
 //			System.out.println(admin.getAllCompanies());
 //			Company com = admin.getOneCompany(4);
-
-            CustomerService customerService = ctx.getBean(CustomerService.class);
-            customerService.setId(1);
-//			customerService.purchaseCoupon(2);
-            System.out.println(customerService.getCoupons());
-//
+//          System.out.println(com);
 //			Customer customerFromDB = admin.getOneCustomer(1);
 //			System.out.println(customerFromDB);
+//            admin.deleteCompany(4);
+
+//            customer services:
+//         customerService.setId(1);
+//		   customerService.purchaseCoupon(2);
+//         System.out.println(customerService.getCoupons());
+//
+
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
