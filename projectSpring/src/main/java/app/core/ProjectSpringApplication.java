@@ -16,7 +16,7 @@ import app.core.entities.Coupon.Category;
 public class ProjectSpringApplication {
 
     /*
-    	done by Eitan Etzion Daniel Har-Oz
+    	Made by Eitan Etzion and Daniel Har-Oz
      */
     public static void main(String[] args) {
         try {
