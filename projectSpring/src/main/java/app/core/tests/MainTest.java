@@ -7,6 +7,7 @@ import app.core.exceptions.ServiceException;
 import app.core.login.ClientType;
 import app.core.login.LoginManager;
 import app.core.services.AdminService;
+import app.core.services.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Scope;
@@ -52,9 +53,11 @@ public class MainTest {
         while (!quit) {
 
             System.out.println();
-            System.out.println("To start test.................................................enter 1");
-            System.out.println("To clear test and reset database..............................enter 2");
-            System.out.println("To quit.......................................................enter 3");
+            System.out.println("To start AdminService test....................................enter 1");
+            System.out.println("To start CompanyService test..................................enter 2");
+            System.out.println("To start CustomerService test.................................enter 3");
+            System.out.println("To clear test and reset database..............................enter 4");
+            System.out.println("To quit.......................................................enter 5");
 
             String key = scan.nextLine();
 
@@ -66,9 +69,17 @@ public class MainTest {
                     break;
                 case "2":
                     space();
-                    clearAll(manager);
+                    companyMenu(manager);
                     break;
                 case "3":
+                    space();
+//                    customerMenu(manager);
+                    break;
+                case "4":
+                    space();
+                    clearAll(manager);
+                    break;
+                case "5":
                     quit = true;
                     break;
                 default:
@@ -106,18 +117,12 @@ public class MainTest {
      */
     public static void adminMenu(LoginManager manager) {
 
-        AdminService service = null;
         System.out.println("Logs in as an admin");
         System.out.println("Email: admin@admin.com");
         System.out.println("Password: admin");
 
-        try {
-            service = (AdminService) manager.login("admin@admin.com", "admin", ClientType.Administrator);
-            System.out.println("Logged in successfully");
-        } catch (CouponSystemException e) {
-            System.out.println("Something went wrong, couldn't log in. ");
-            e.printStackTrace();
-        }
+        AdminService service = logInAdmin(manager);
+        System.out.println("Logged in successfully");
 
         space();
 
@@ -131,6 +136,43 @@ public class MainTest {
         AdminTest.deleteCustomers(service);
         AdminTest.getAllCustomers(service);
         AdminTest.getOneCustomer(service);
+
+        System.out.println("AdminService test is over, returning to main menu. ");
+
+        space();
+    }
+
+    /**
+     * Interacts with a company type user. */
+    public static void companyMenu(LoginManager manager) {
+
+        CompanyService service = null;
+        System.out.println("Logs in as Company1");
+        System.out.println("Email: company1@updated-company.com");
+        System.out.println("Password: 0000");
+
+        try {
+            service = (CompanyService) manager.login("company1@updated-company.com", "0000", ClientType.Company);
+            System.out.println("Logged in successfully");
+        } catch (CouponSystemException e) {
+            System.out.println("Something went wrong, couldn't log in. ");
+            e.printStackTrace();
+        }
+
+        space();
+
+        CompanyTest.initCompany(logInAdmin(manager));
+        CompanyTest.addCoupons(service);
+        CompanyTest.updateCoupons(service);
+        CompanyTest.deleteCoupons(service);
+        CompanyTest.getAllCoupons(service);
+        CompanyTest.getAllCouponsCat(service);
+        CompanyTest.getAllCouponsMax(service);
+        CompanyTest.getCompanyDetails(service);
+
+        System.out.println("CompanyService test is over, returning to main menu. ");
+
+        space();
 
     }
 
@@ -189,5 +231,21 @@ public class MainTest {
         }
 
         space();
+    }
+
+    /**
+     * Logs in an admin.
+     */
+    public static AdminService logInAdmin(LoginManager manager) {
+
+        AdminService service = null;
+
+        try {
+            service = (AdminService) manager.login("admin@admin.com", "admin", ClientType.Administrator);
+        } catch (CouponSystemException e) {
+            e.printStackTrace();
+        }
+
+        return service;
     }
 }

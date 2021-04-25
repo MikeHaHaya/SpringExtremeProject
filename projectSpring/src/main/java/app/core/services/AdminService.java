@@ -45,6 +45,8 @@ public class AdminService extends ClientService {
             throw new ServiceException("A company with that name already exists. ");
         if (comRep.existsCompanyByEmail(company.getEmail()))
             throw new ServiceException("A company with that email already exists. ");
+        if (company.getId() != 0)
+            throw new ServiceException("Company id must be left empty. ");
 
         return comRep.save(company);
     }
@@ -122,6 +124,9 @@ public class AdminService extends ClientService {
             throw new ServiceException("Some details are missing, please try again. ");
         if (custRep.existsCustomerByEmail(customer.getEmail()))
             throw new ServiceException("A customer with that email already exists. ");
+        if (customer.getId() != 0)
+            throw new ServiceException("Customer id must be left empty");
+
         return custRep.save(customer);
     }
 

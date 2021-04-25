@@ -154,13 +154,19 @@ public class Coupon {
 
 	@Override
 	public String toString() {
-		return "Coupon [iDCoupun=" + id + ", iDCompany=" + company + ", amount=" + amount + ", title=" + title
-				+ ", image=" + image + ", startDate=" + startDate + ", endDate=" + endDate + ", price=" + price
-				+ ", category=" + category + "]";
+		return "Coupon{" +
+				"id=" + id +
+				", company=" + company +
+				", amount=" + amount +
+				", title='" + title + '\'' +
+				", description='" + description + '\'' +
+				", image='" + image + '\'' +
+				", startDate=" + startDate +
+				", endDate=" + endDate +
+				", price=" + price +
+				", category=" + category +
+				'}';
 	}
-
-	
-
 
 
 }

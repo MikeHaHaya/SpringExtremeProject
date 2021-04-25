@@ -46,7 +46,12 @@ public class CustomerService extends ClientService {
      */
     @Override
     public boolean login(String email, String password) {
-        return custRep.existsCustomerByEmailAndPassword(email, password);
+
+        if (custRep.existsCustomerByEmailAndPassword(email, password)) {
+            this.id = custRep.findCustomerByEmailAndPassword(email, password).getId();
+            return true;
+        } else
+            return false;
     }
 
     /**

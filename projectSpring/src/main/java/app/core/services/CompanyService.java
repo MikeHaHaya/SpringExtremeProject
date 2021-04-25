@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 
 import app.core.exceptions.ServiceException;
@@ -47,7 +48,12 @@ public class CompanyService extends ClientService {
      */
     @Override
     public boolean login(String email, String password) {
-        return comRep.existsCompanyByEmailAndPassword(email, password);
+
+        if (comRep.existsCompanyByEmailAndPassword(email, password)) {
+            this.id = comRep.findCompanyByEmailAndPassword(email, password).getId();
+            return true;
+        } else
+            return false;
     }
 
     /**
@@ -62,6 +68,9 @@ public class CompanyService extends ClientService {
 
         if (couRep.existsCouponByTitle(coupon.getTitle()) && id == coupon.getCompany().getId())
             throw new ServiceException("A different coupon created by this company already has this title. ");
+
+        if (coupon.getId() != 0)
+            throw new ServiceException("Coupon id must be left empty. ");
 
         coupon.setCompany(company);
         company.addCoupon(coupon);

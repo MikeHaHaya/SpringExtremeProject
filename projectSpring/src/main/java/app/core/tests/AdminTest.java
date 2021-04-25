@@ -222,7 +222,7 @@ public class AdminTest {
     }
 
     /**
-     * Deletes companies from AdminFacade.
+     * Deletes companies from AdminService.
      */
     public static void deleteCompanies(AdminService service) {
 
@@ -255,7 +255,7 @@ public class AdminTest {
     }
 
     /**
-     * Gets all companies from AdminFacade.
+     * Gets all companies from AdminService.
      */
     public static void getAllCompanies(AdminService service) {
 
@@ -275,7 +275,7 @@ public class AdminTest {
     }
 
     /**
-     * Gets a single company from AdminFacade. */
+     * Gets a single company from AdminService. */
     public static void getOneCompany(AdminService service) {
 
         MainTest.sleep();
@@ -296,7 +296,7 @@ public class AdminTest {
     }
 
     /**
-     * Adds customers from AdminFacade. */
+     * Adds customers from AdminService. */
     public static void addCustomers(AdminService service) {
 
         MainTest.sleep();
@@ -388,7 +388,7 @@ public class AdminTest {
     }
 
     /**
-     * Updates customers from AdminFacade. */
+     * Updates customers from AdminService. */
     public static void updateCustomers(AdminService service) {
 
         MainTest.sleep();
@@ -479,7 +479,7 @@ public class AdminTest {
     }
 
     /**
-     * Deletes customers from AdminFacade. */
+     * Deletes customers from AdminService. */
     public static void deleteCustomers(AdminService service) {
 
         MainTest.sleep();
@@ -509,7 +509,7 @@ public class AdminTest {
     }
 
     /**
-     * Gets all companies from AdminFacade. */
+     * Gets all companies from AdminService. */
     public static void getAllCustomers(AdminService service) {
 
         MainTest.sleep();
@@ -532,7 +532,7 @@ public class AdminTest {
     }
 
     /**
-     * Gets a single customer from AdminFacade. */
+     * Gets a single customer from AdminService. */
     public static void getOneCustomer(AdminService service) {
 
         MainTest.sleep();
