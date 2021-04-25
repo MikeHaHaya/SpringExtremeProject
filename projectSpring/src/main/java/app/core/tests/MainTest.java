@@ -31,10 +31,10 @@ public class MainTest {
     public MainTest() {
     }
 
-    @PostConstruct // To ensure that LoginManager is injected prior to this method.
     /**
      * Gives a developer test to test the entire system functioning.
      */
+    @PostConstruct // To ensure that LoginManager is injected prior to this method.
     public void testAll() {
 
         mainMenu(manager);
