@@ -13,7 +13,7 @@ import app.core.entities.Company;
 import app.core.entities.Customer;
 import app.core.exceptions.CouponSystemException;
 
-@Service
+@Service("adminService")
 @Transactional
 @Scope("singleton")
 public class AdminService extends ClientService {

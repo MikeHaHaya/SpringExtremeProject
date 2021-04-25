@@ -7,8 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import app.core.entities.Coupon;
+import org.springframework.stereotype.Repository;
 
-
+@Repository("couponRepository")
 public interface CouponRepository extends JpaRepository<Coupon, Integer> {
 
     boolean existsCouponById(int id);

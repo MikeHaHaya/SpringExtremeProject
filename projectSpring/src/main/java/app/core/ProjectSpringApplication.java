@@ -21,7 +21,6 @@ public class ProjectSpringApplication {
     public static void main(String[] args) {
         try {
 
-
             ConfigurableApplicationContext ctx = SpringApplication.run(ProjectSpringApplication.class, args);
 //			CouponExpirationDailyJob.startThread(ctx);
 
@@ -30,6 +29,10 @@ public class ProjectSpringApplication {
             AdminService admin = ctx.getBean(AdminService.class);
 			CompanyService companyService = ctx.getBean(CompanyService.class);
             CustomerService customerService = ctx.getBean(CustomerService.class);
+
+//            System.out.println("Waiting 5 seconds");
+//            Thread.sleep(5000);
+//            System.out.println("Program ends");
 
             //Methods to add to the DB
 //			Customer customer = new Customer(0, "a", "a", "a@a", "128376gh", null);

@@ -14,7 +14,7 @@ import app.core.entities.Company;
 import app.core.entities.Coupon;
 import app.core.exceptions.CouponSystemException;
 
-@Service
+@Service("companyService")
 @Transactional
 @Scope("prototype")
 public class CompanyService extends ClientService {

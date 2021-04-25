@@ -6,11 +6,13 @@ import app.core.services.ClientService;
 import app.core.services.CompanyService;
 import app.core.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@Component
+@Component("loginManager")
+@DependsOn({"adminService", "companyService", "customerService"})
 @Scope("singleton")
 public class LoginManager {
 
@@ -25,6 +27,7 @@ public class LoginManager {
      * Empty Constructor
      */
     public LoginManager() {
+        System.out.println("LoginManager is up");
     }
 
     public ClientService login(String email, String password, ClientType clientType) throws LoginException {

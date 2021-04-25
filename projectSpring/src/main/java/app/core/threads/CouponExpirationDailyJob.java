@@ -3,6 +3,7 @@ package app.core.threads;
 import app.core.entities.Coupon;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -11,28 +12,33 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-@Component
+// Singleton components will be initialized on startup, therefore the thread will run on startup
+@Component("couponExpirationThread")
+@DependsOn({"couponExpirationService"})
 @Scope("singleton")
 public class CouponExpirationDailyJob implements Runnable {
 
     @Autowired
     private CouponExpirationService service;
-        private final Thread t;
-        private boolean quit = false;
+    private final Thread t;
+    private boolean quit = false;
 
-        /**
-         * Constructor and starter. */
+    /**
+     * Constructor and starter.
+     */
     public CouponExpirationDailyJob() {
-            this.t = new Thread(this);
+        this.t = new Thread(this);
+        t.setDaemon(true); // Together with PreDestroy, thread will always stop properly when the program stops
         t.start();
     }
 
     /**
-     * Thread Start. */
+     * Thread Start.
+     */
     @Override
     public void run() {
 
-        System.out.println("CouponExpiration thread has started");
+        System.out.println("CouponExpiration thread has started ");
 
         while (!quit) {
 
@@ -47,7 +53,7 @@ public class CouponExpirationDailyJob implements Runnable {
 
             try {
 
-                for (Coupon coupon: coupons) {
+                for (Coupon coupon : coupons) {
                     if (coupon.getEndDate().isBefore(now))
                         service.deleteCouponById(coupon.getId());
                 }
@@ -59,20 +65,24 @@ public class CouponExpirationDailyJob implements Runnable {
             }
 
         }
-        System.out.println("CouponExpiration thread has stopped");
+        System.out.println("CouponExpiration thread has stopped ");
     }
 
+    // Will always close the thread properly
     @PreDestroy
     /**
-     * Stops the thread */
+     * Stops the thread
+     */
     public void stop() {
 
+        System.out.println("CouponExpiration thread closing properly... ");
         quit = true;
         t.interrupt();
     }
 
     /**
-     * Gets how many milliseconds left until next midnight. */
+     * Gets how many milliseconds left until next midnight.
+     */
     public static long delayUntilMidnight() {
 
         // Delay to work again at midnight
