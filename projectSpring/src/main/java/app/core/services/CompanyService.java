@@ -21,6 +21,7 @@ public class CompanyService extends ClientService {
 
     private int id;
 
+
     /**
      * Init Constructor
      */
@@ -35,7 +36,7 @@ public class CompanyService extends ClientService {
     }
 
     /**
-     * Sets the company's id
+     * Sets the company's id.
      */
     public void setId(int id) {
         this.id = id;
@@ -57,10 +58,7 @@ public class CompanyService extends ClientService {
         if (isCouponNullCheck(coupon))
             throw new ServiceException("Some details are missing, please try again. ");
 
-        Optional<Company> opt = comRep.findById(id);
-        if (opt.isEmpty())
-            throw new ServiceException("A company with this id does not exist. ");
-        Company company = opt.get();
+        Company company = getCompany();
 
         if (couRep.existsCouponByTitle(coupon.getTitle()) && id == coupon.getCompany().getId())
             throw new ServiceException("A different coupon created by this company already has this title. ");
@@ -71,6 +69,9 @@ public class CompanyService extends ClientService {
     }
 
     // TODO check if working
+    /**
+     * Updates the coupon from the database.
+     */
     public void updateCoupon(Coupon coupon, int id) throws ServiceException {
 
         if (isCouponNullCheck(coupon))
@@ -119,30 +120,24 @@ public class CompanyService extends ClientService {
     /**
      * Gets all coupons of this company from the database.
      */
-    public List<Coupon> getCompanyCoupons() {
-
-        List<Coupon> coupons = couRep.findAllByCompanyId(this.id);
-        return coupons;
+    public List<Coupon> getCoupons() {
+        return couRep.findAllByCompanyId(this.id);
     }
 
     // TODO -- CHECK IF WORKING
     /**
      * Gets all coupons by this company with a category filter from the database.
      */
-    public List<Coupon> getCompanyCoupons(Coupon.Category category) {
-
-        List<Coupon> coupons = couRep.findAllByCompanyAndCategoryId(this.id, category);
-        return coupons;
+    public List<Coupon> getCouponsByCategory(Coupon.Category category) {
+        return couRep.findAllByCompanyAndCategoryId(this.id, category);
     }
 
     // TODO -- CHECK IF WORKING
     /**
      * Gets all coupons by this company with a maxPrice filter from the database.
      */
-    public List<Coupon> getCompanyCoupons(double maxPrice) {
-
-        List<Coupon> coupons = couRep.findAllByCompanyIdAndMaxPrice(this.id, maxPrice);
-        return coupons;
+    public List<Coupon> getCouponsByMaxPrice(double maxPrice) {
+        return couRep.findAllByCompanyIdAndMaxPrice(this.id, maxPrice);
     }
 
     /**
@@ -160,17 +155,28 @@ public class CompanyService extends ClientService {
                 + "Email: " + company.getEmail() + "\n"
                 + "Coupons owned: ";
 
-        ArrayList<Coupon> coupons = (ArrayList<Coupon>) getCompanyCoupons();
+        ArrayList<Coupon> coupons = (ArrayList<Coupon>) getCoupons();
         details += coupons.size();
 
         return details;
     }
 
     /**
-     * Checks if a coupon is null or contains null objects (title, description, image, startDate, endDate, category).
-     * Returns true if null or contains null, returns false if no null was found.
+     * @return the company as an object using it's id.
      */
-    public static boolean isCouponNullCheck(Coupon coupon) {
+    private Company getCompany() throws ServiceException {
+
+        Optional<Company> opt = comRep.findById(id);
+        if (opt.isEmpty())
+            throw new ServiceException("A company with this id does not exist. ");
+        return opt.get();
+    }
+
+    /**
+     * Checks if a coupon is null or contains null objects (title, description, image, startDate, endDate, category).
+     * @return true if null or contains null, returns false if no null was found.
+     */
+    private static boolean isCouponNullCheck(Coupon coupon) {
 
         if (coupon == null)
             return true;

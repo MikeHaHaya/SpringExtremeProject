@@ -21,60 +21,60 @@ public class CustomerService extends ClientService {
 
     private int id;
 
+    /**
+     * An empty constructor.
+     */
     public CustomerService() {
     }
 
+    /**
+     * Init Constructor
+     */
     public CustomerService(int id) {
         this.id = id;
     }
 
+    /**
+     * Sets the company's id.
+     */
     public void setId(int id) {
         this.id = id;
     }
 
+    /**
+     * Logs in a customer user.
+     */
     @Override
     public boolean login(String email, String password) {
-        if (custRep.existsCustomerByEmailAndPassword(email, password))
-            return true;
-
-        return false;
+        return custRep.existsCustomerByEmailAndPassword(email, password);
     }
 
-    public Customer getCustomer() throws ServiceException {
-        Optional<Customer> opt = custRep.findById(this.id);
-        if (opt.isEmpty())
-            throw new ServiceException("customer does not exist in the DB");
-        return opt.get();
-    }
-
-    public void purchaseCoupon(int couponId) throws CouponSystemException {
+    /**
+     * Adds a new purchase to the database
+     */
+    public void purchaseCoupon(int couponId) throws ServiceException {
 
         Optional<Coupon> optCoupon = couRep.findById(couponId);
 
         if (optCoupon.isEmpty())
-            throw new CouponSystemException("this coupon doesn't exist");
+            throw new ServiceException("A coupon with this id does not exist. ");
         Coupon coupon = optCoupon.get();
         List<Integer> customerCoupons = couRep.findAllByCustomersId(id);
 
 
         if (coupon.getAmount() < 1) {
-            throw new CouponSystemException("no coupons left (coupons amount == 0)");
+            throw new ServiceException("The coupon you are trying to buy has run out of stock. ");
         }
 
         if (coupon.getEndDate().isBefore(LocalDateTime.now())) {
-            throw new CouponSystemException("coupon date expired");
+            throw new ServiceException("The coupon you are trying to buy has expired. ");
         }
 
         if (customerCoupons.contains(couponId)) {
-            throw new CouponSystemException("you already have this coupon");
+            throw new ServiceException("You already owns this coupon. ");
         }
 
-        Optional<Customer> opt = custRep.findById(id);
-        if (opt.isEmpty()) {
-            throw new CouponSystemException("customer doesn't exist in the DB");
-        }
-
-        Customer customer = opt.get();
+        Customer customer = getCustomer();
 
         coupon.setAmount(coupon.getAmount() - 1);
         customer.addCoupon(coupon);
@@ -86,8 +86,16 @@ public class CustomerService extends ClientService {
      * @return the coupons of the customer. will return empty list in case of no coupons.
      */
     public ArrayList<Coupon> getCoupons() {
-        ArrayList<Coupon> coupons = getCouponsArrayList();
 
+        ArrayList<Integer> couponsID = new ArrayList<Integer>(couRep.findAllByCustomersId(id));
+        ArrayList<Coupon> coupons = new ArrayList<Coupon>();
+
+        for (Integer integer : couponsID) {
+
+            Optional<Coupon> opt = couRep.findById(id);
+            Coupon coupon = opt.get();
+            coupons.add(coupon);
+        }
         return coupons;
     }
 
@@ -95,7 +103,8 @@ public class CustomerService extends ClientService {
      * @return the coupons of the customer that match the given category. will return empty list in case of no coupons.
      */
     public ArrayList<Coupon> getCouponsByCategory(Coupon.Category category) {
-        ArrayList<Coupon> coupons = getCouponsArrayList();
+
+        ArrayList<Coupon> coupons = getCoupons();
 
         for (Coupon coupon : coupons) {
             if (coupon.getCategory() != category)
@@ -109,27 +118,45 @@ public class CustomerService extends ClientService {
      * @return the coupons of the customer that under maxPrice. will return empty list in case of no coupons.
      */
     public ArrayList<Coupon> getCouponsByMaxPrice(double maxPrice) {
-        ArrayList<Coupon> coupons = getCouponsArrayList();
+
+        ArrayList<Coupon> coupons = getCoupons();
 
         for (Coupon coupon : coupons) {
 
-            if (coupon.getPrice() < maxPrice) ;
+            if (coupon.getPrice() <= maxPrice) ;
             coupons.remove(coupon);
         }
 
         return coupons;
     }
 
-    public ArrayList<Coupon> getCouponsArrayList() {
-        ArrayList<Integer> couponsID = new ArrayList<Integer>(couRep.findAllByCustomersId(id));
-        ArrayList<Coupon> coupons = new ArrayList<Coupon>();
+    /**
+     * @return all details about this customer from the database.
+     */
+    public String getCustomerDetails() throws ServiceException {
 
-        for (Integer integer : couponsID) {
+        Customer customer = getCustomer();
 
-            Optional<Coupon> opt = couRep.findById(id);
-            Coupon coupon = opt.get();
-            coupons.add(coupon);
-        }
-        return coupons;
+        String details = "ID: " + id + "\n"
+                + "Full Name: " + customer.getFirstName() + " " + customer.getLastName() +"\n"
+                + "Email: " + customer.getEmail() + "\n"
+                + "Coupons purchased: ";
+
+        ArrayList<Coupon> coupons = getCoupons();
+        details += coupons.size();
+
+        return details;
     }
+
+    /**
+     * @return the customer as an object using it's id.
+     */
+    private Customer getCustomer() throws ServiceException {
+
+        Optional<Customer> opt = custRep.findById(this.id);
+        if (opt.isEmpty())
+            throw new ServiceException("A customer with this id does not exist. ");
+        return opt.get();
+    }
+
 }
