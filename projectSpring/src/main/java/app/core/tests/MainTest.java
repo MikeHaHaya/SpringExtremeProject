@@ -52,11 +52,9 @@ public class MainTest {
         while (!quit) {
 
             System.out.println();
-            System.out.println("To test AdminService.................................................enter 1");
-            System.out.println("To test CompanyService..........................................enter 2");
-            System.out.println("To test CustomerService.........................................enter 3");
-            System.out.println("To clear test and reset database........................enter 4");
-            System.out.println("To quit.................................................................................enter 5");
+            System.out.println("To start test.................................................enter 1");
+            System.out.println("To clear test and reset database..............................enter 2");
+            System.out.println("To quit.......................................................enter 3");
 
             String key = scan.nextLine();
 
@@ -68,17 +66,9 @@ public class MainTest {
                     break;
                 case "2":
                     space();
-//                    companyMenu(manager);
-                    break;
-                case "3":
-                    space();
-//                    customerMenu(manager);
-                    break;
-                case "4":
-                    space();
                     clearAll(manager);
                     break;
-                case "5":
+                case "3":
                     quit = true;
                     break;
                 default:
