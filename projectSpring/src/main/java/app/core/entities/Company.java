@@ -19,8 +19,7 @@ public class Company {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String name, email, password;
-	
-//	TODO
+
 	@OneToMany(cascade = CascadeType.PERSIST, mappedBy = "company")
 	private List<Coupon> coupons;
 	

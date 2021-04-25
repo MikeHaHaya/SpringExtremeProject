@@ -68,7 +68,6 @@ public class CompanyService extends ClientService {
 
     }
 
-    // TODO check if working
     /**
      * Updates the coupon from the database.
      */
@@ -124,7 +123,6 @@ public class CompanyService extends ClientService {
         return couRep.findAllByCompanyId(this.id);
     }
 
-    // TODO -- CHECK IF WORKING
     /**
      * Gets all coupons by this company with a category filter from the database.
      */
@@ -132,7 +130,6 @@ public class CompanyService extends ClientService {
         return couRep.findAllByCompanyAndCategoryId(this.id, category);
     }
 
-    // TODO -- CHECK IF WORKING
     /**
      * Gets all coupons by this company with a maxPrice filter from the database.
      */

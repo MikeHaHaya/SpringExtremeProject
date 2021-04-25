@@ -4,6 +4,7 @@ import app.core.entities.Coupon;
 import app.core.repositories.CouponRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -12,6 +13,7 @@ import java.util.List;
 @Service("couponExpirationService")
 @DependsOn({"couponRepository"})
 @Transactional
+@Scope("singleton")
 public class CouponExpirationService {
 
     @Autowired
