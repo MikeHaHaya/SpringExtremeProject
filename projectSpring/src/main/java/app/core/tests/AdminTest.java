@@ -11,6 +11,7 @@ import java.util.Scanner;
 public class AdminTest {
 
     private static final Scanner scan = new Scanner(System.in);
+    private static AdminService service;
 
     /**
      * Adds companies from AdminService.
@@ -275,7 +276,8 @@ public class AdminTest {
     }
 
     /**
-     * Gets a single company from AdminService. */
+     * Gets a single company from AdminService.
+     */
     public static void getOneCompany(AdminService service) {
 
         MainTest.sleep();
@@ -296,7 +298,8 @@ public class AdminTest {
     }
 
     /**
-     * Adds customers from AdminService. */
+     * Adds customers from AdminService.
+     */
     public static void addCustomers(AdminService service) {
 
         MainTest.sleep();
@@ -388,7 +391,8 @@ public class AdminTest {
     }
 
     /**
-     * Updates customers from AdminService. */
+     * Updates customers from AdminService.
+     */
     public static void updateCustomers(AdminService service) {
 
         MainTest.sleep();
@@ -479,7 +483,8 @@ public class AdminTest {
     }
 
     /**
-     * Deletes customers from AdminService. */
+     * Deletes customers from AdminService.
+     */
     public static void deleteCustomers(AdminService service) {
 
         MainTest.sleep();
@@ -509,7 +514,8 @@ public class AdminTest {
     }
 
     /**
-     * Gets all companies from AdminService. */
+     * Gets all companies from AdminService.
+     */
     public static void getAllCustomers(AdminService service) {
 
         MainTest.sleep();
@@ -518,21 +524,18 @@ public class AdminTest {
         System.out.println();
 
         // Trying to get all companies
-        try {
-            ArrayList<Customer> customers = (ArrayList<Customer>) service.getAllCustomers();
-            System.out.println("Customers received successfully");
-            for (Customer customer : customers) {
-                System.out.println(customer);
-            }
-        } catch (CouponSystemException e) {
-            e.printStackTrace();
+        ArrayList<Customer> customers = (ArrayList<Customer>) service.getAllCustomers();
+        System.out.println("Customers received successfully");
+        for (Customer customer : customers) {
+            System.out.println(customer);
         }
 
         MainTest.space();
     }
 
     /**
-     * Gets a single customer from AdminService. */
+     * Gets a single customer from AdminService.
+     */
     public static void getOneCustomer(AdminService service) {
 
         MainTest.sleep();
@@ -550,5 +553,9 @@ public class AdminTest {
         }
 
         MainTest.space();
+    }
+
+    public static void initAdmin(AdminService adminService) {
+        service = adminService;
     }
 }

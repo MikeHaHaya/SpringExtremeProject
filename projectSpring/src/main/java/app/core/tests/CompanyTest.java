@@ -16,11 +16,12 @@ public class CompanyTest {
 
     private static final Scanner scan = new Scanner(System.in);
     private static Company company;
+    private static CompanyService service;
 
     /**
      * Adds coupons from CompanyService.
      */
-    public static void addCoupons(CompanyService service) {
+    public static void addCoupons() {
 
         MainTest.sleep();
         System.out.println("Auto-adding 3 coupons - Should run smoothly (press enter to continue): ");
@@ -156,7 +157,7 @@ public class CompanyTest {
     /**
      * Updates coupons from CompanyService.
      */
-    public static void updateCoupons(CompanyService service) {
+    public static void updateCoupons() {
 
         MainTest.sleep();
         System.out.println("Auto-updating a single coupon with some title and description changes - Should run smoothly (press enter to continue): ");
@@ -205,7 +206,7 @@ public class CompanyTest {
     /**
      * Deletes coupons from CompanyService.
      */
-    public static void deleteCoupons(CompanyService service) {
+    public static void deleteCoupons() {
 
         MainTest.sleep();
         System.out.println("Auto-deleting a single company - Should run smoothly (press enter to continue): ");
@@ -230,7 +231,7 @@ public class CompanyTest {
     /**
      * Gets all coupons by this company from CompanyService.
      */
-    public static void getAllCoupons(CompanyService service) {
+    public static void getAllCoupons() {
 
         MainTest.sleep();
         System.out.println("Auto-getting all coupons by this company - Should run smoothly (press enter to continue): ");
@@ -249,7 +250,7 @@ public class CompanyTest {
     /**
      * Gets all coupons by this company in the electricity category CompanyService.
      */
-    public static void getAllCouponsCat(CompanyService service) {
+    public static void getAllCouponsCat() {
 
         MainTest.sleep();
         System.out.println("Auto-getting all coupons by this company in the electricity category - Should run smoothly (press enter to continue): ");
@@ -268,7 +269,7 @@ public class CompanyTest {
     /**
      * Gets all coupons by this company with a max price of 100 from CompanyService.
      */
-    public static void getAllCouponsMax(CompanyService service) {
+    public static void getAllCouponsMax() {
 
         MainTest.sleep();
         System.out.println("Auto-getting all coupons by this company with a max price of 100 - Should run smoothly (press enter to continue): ");
@@ -287,7 +288,7 @@ public class CompanyTest {
     /**
      * Gets more details about this company.
      */
-    public static void getCompanyDetails(CompanyService service) {
+    public static void getCompanyDetails() {
 
         MainTest.sleep();
         System.out.println("Auto-getting details about this company - Should run smoothly (press enter to continue): ");
@@ -308,7 +309,8 @@ public class CompanyTest {
     /**
      * Initializes a company for future use.
      */
-    public static void initCompany(AdminService service) {
-        company = service.getAllCompanies().get(0);
+    public static void initCompany(AdminService adminService, CompanyService companyService) {
+        company = adminService.getAllCompanies().get(0);
+        service = companyService;
     }
 }

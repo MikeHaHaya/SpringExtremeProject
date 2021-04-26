@@ -1,5 +1,6 @@
 package app.core.services;
 
+import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,8 +65,7 @@ public class CustomerService extends ClientService {
         if (optCoupon.isEmpty())
             throw new ServiceException("A coupon with this id does not exist. ");
         Coupon coupon = optCoupon.get();
-        List<Integer> customerCoupons = couRep.findAllByCustomersId(id);
-
+        List<Integer> couponsId = couRep.findAllByCustomers(id);
 
         if (coupon.getAmount() < 1) {
             throw new ServiceException("The coupon you are trying to buy has run out of stock. ");
@@ -75,7 +75,7 @@ public class CustomerService extends ClientService {
             throw new ServiceException("The coupon you are trying to buy has expired. ");
         }
 
-        if (customerCoupons.contains(couponId)) {
+        if (couponsId.contains(couponId)) {
             throw new ServiceException("You already owns this coupon. ");
         }
 
@@ -92,12 +92,12 @@ public class CustomerService extends ClientService {
      */
     public ArrayList<Coupon> getCoupons() {
 
-        ArrayList<Integer> couponsID = new ArrayList<Integer>(couRep.findAllByCustomersId(id));
+        ArrayList<Integer> couponsID = new ArrayList<Integer>(couRep.findAllByCustomers(id));
         ArrayList<Coupon> coupons = new ArrayList<Coupon>();
 
-        for (Integer integer : couponsID) {
+        for (Integer couponId : couponsID) {
 
-            Optional<Coupon> opt = couRep.findById(id);
+            Optional<Coupon> opt = couRep.findById(couponId);
             Coupon coupon = opt.get();
             coupons.add(coupon);
         }
@@ -111,9 +111,10 @@ public class CustomerService extends ClientService {
 
         ArrayList<Coupon> coupons = getCoupons();
 
-        for (Coupon coupon : coupons) {
-            if (coupon.getCategory() != category)
-                coupons.remove(coupon);
+        for (int i = 0; i < coupons.size(); i++) {
+            if (coupons.get(i).getCategory() != category) {
+                coupons.remove(i);
+            }
         }
 
         return coupons;
@@ -143,7 +144,7 @@ public class CustomerService extends ClientService {
         Customer customer = getCustomer();
 
         String details = "ID: " + id + "\n"
-                + "Full Name: " + customer.getFirstName() + " " + customer.getLastName() +"\n"
+                + "Full Name: " + customer.getFirstName() + " " + customer.getLastName() + "\n"
                 + "Email: " + customer.getEmail() + "\n"
                 + "Coupons purchased: ";
 

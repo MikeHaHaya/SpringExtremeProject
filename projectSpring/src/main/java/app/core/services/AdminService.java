@@ -167,7 +167,7 @@ public class AdminService extends ClientService {
     /**
      * Gets all customers from the database.
      */
-    public List<Customer> getAllCustomers() throws ServiceException {
+    public List<Customer> getAllCustomers() {
         return custRep.findAll();
     }
 

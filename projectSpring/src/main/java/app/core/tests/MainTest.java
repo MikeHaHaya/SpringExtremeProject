@@ -8,6 +8,7 @@ import app.core.login.ClientType;
 import app.core.login.LoginManager;
 import app.core.services.AdminService;
 import app.core.services.CompanyService;
+import app.core.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Scope;
@@ -73,7 +74,7 @@ public class MainTest {
                     break;
                 case "3":
                     space();
-//                    customerMenu(manager);
+                    customerMenu(manager);
                     break;
                 case "4":
                     space();
@@ -126,6 +127,7 @@ public class MainTest {
 
         space();
 
+        AdminTest.initAdmin(logInAdmin(manager));
         AdminTest.addCompanies(service);
         AdminTest.updateCompanies(service);
         AdminTest.deleteCompanies(service);
@@ -146,34 +148,58 @@ public class MainTest {
      * Interacts with a company type user. */
     public static void companyMenu(LoginManager manager) {
 
-        CompanyService service = null;
         System.out.println("Logs in as Company1");
         System.out.println("Email: company1@updated-company.com");
         System.out.println("Password: 0000");
 
-        try {
-            service = (CompanyService) manager.login("company1@updated-company.com", "0000", ClientType.Company);
-            System.out.println("Logged in successfully");
-        } catch (CouponSystemException e) {
-            System.out.println("Something went wrong, couldn't log in. ");
-            e.printStackTrace();
-        }
+        CompanyService service = logInCompany(manager);
+        System.out.println("Logged in successfully");
 
         space();
 
-        CompanyTest.initCompany(logInAdmin(manager));
-        CompanyTest.addCoupons(service);
-        CompanyTest.updateCoupons(service);
-        CompanyTest.deleteCoupons(service);
-        CompanyTest.getAllCoupons(service);
-        CompanyTest.getAllCouponsCat(service);
-        CompanyTest.getAllCouponsMax(service);
-        CompanyTest.getCompanyDetails(service);
+        CompanyTest.initCompany(logInAdmin(manager), logInCompany(manager));
+        CompanyTest.addCoupons();
+        CompanyTest.updateCoupons();
+        CompanyTest.deleteCoupons();
+        CompanyTest.getAllCoupons();
+        CompanyTest.getAllCouponsCat();
+        CompanyTest.getAllCouponsMax();
+        CompanyTest.getCompanyDetails();
 
         System.out.println("CompanyService test is over, returning to main menu. ");
 
         space();
 
+    }
+
+    /**
+     * Interacts with a customer type user. */
+    public static void customerMenu(LoginManager manager) {
+
+        CustomerService service = null;
+        System.out.println("Logs in as Customer1");
+        System.out.println("Email: customer1@updated-customer.com");
+        System.out.println("Password: 0000");
+
+        try {
+            service = (CustomerService) manager.login("customer1@updated-customer.com", "0000", ClientType.Customer);
+            System.out.println("Logged in successfully");
+        } catch (CouponSystemException e) {
+            e.printStackTrace();
+        }
+
+        space();
+
+        CustomerTest.initCustomer(logInAdmin(manager),logInCompany(manager), service);
+        CustomerTest.purchaseCoupons();
+        CustomerTest.getCustomerCoupons();
+        CustomerTest.getCustomerCouponsCat();
+        CustomerTest.getCustomerCouponsMax();
+        CustomerTest.getCustomerDetails();
+
+        System.out.println("CustomerService test is over, returning to main menu. ");
+
+        space();
     }
 
     /**
@@ -242,6 +268,22 @@ public class MainTest {
 
         try {
             service = (AdminService) manager.login("admin@admin.com", "admin", ClientType.Administrator);
+        } catch (CouponSystemException e) {
+            e.printStackTrace();
+        }
+
+        return service;
+    }
+
+    /**
+     * Logs in a company.
+     */
+    public static CompanyService logInCompany(LoginManager manager) {
+
+        CompanyService service = null;
+
+        try {
+            service = (CompanyService) manager.login("company1@updated-company.com", "0000", ClientType.Company);
         } catch (CouponSystemException e) {
             e.printStackTrace();
         }

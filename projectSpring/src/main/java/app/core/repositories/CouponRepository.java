@@ -18,12 +18,12 @@ public interface CouponRepository extends JpaRepository<Coupon, Integer> {
 
     void deleteByCompany(Company company);
 
+    @Query(value = "SELECT `coupon_id` FROM `customers_coupons` WHERE `customer_id` = :customerId", nativeQuery = true)
+    List<Integer> findAllByCustomers(int customerId);
+
     // Native query due to problems with IntelliJ and Eclipse connection to mySQL
     @Query(value = "SELECT * FROM `coupons` WHERE `company_id` = :id", nativeQuery = true)
     List<Coupon> findAllByCompanyId(int id);
-
-    @Query(value = "SELECT * FROM `customers_coupons` WHERE `customer_id` = :id", nativeQuery = true)
-    List<Integer> findAllByCustomersId(int id);
 
     @Query(value = "SELECT * FROM `coupons` WHERE `company_id` = :id AND `category` = :category", nativeQuery = true)
     List<Coupon> findAllByCompanyAndCategoryId(int id, Coupon.Category category);
